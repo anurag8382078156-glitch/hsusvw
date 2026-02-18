@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Priyanka ❤️ Please Forgive Me</title>
+
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#ff6a88,#ff99ac,#c471f5);
+    color:white;
+    text-align:center;
+}
+
+.container{
+    position:relative;
+    z-index:2;
+    padding:60px 20px;
+}
+
+h1{
+    font-size:2.2em;
+    margin-bottom:10px;
+}
+
+.slide{
+    font-size:1.4em;
+    max-width:520px;
+    margin:20px auto;
+    min-height:110px;
+    transition:0.5s;
+}
+
+.buttons{
+    margin-top:20px;
+}
+
+button{
+    padding:12px 25px;
+    border:none;
+    border-radius:25px;
+    font-size:1em;
+    cursor:pointer;
+    margin:10px;
+    transition:0.3s;
+}
+
+#yesBtn{
+    background:white;
+    color:#ff4e7a;
+    font-weight:bold;
+}
+
+#noBtn{
+    background:#ff4e7a;
+    color:white;
+    position:absolute;
+}
+
+canvas{
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+.heart{
+    position:absolute;
+    animation:float 6s linear infinite;
+}
+
+@keyframes float{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-10vh);}
+}
+</style>
+</head>
+<body>
+
+<audio autoplay loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9d5c90f6a2.mp3" type="audio/mp3">
+</audio>
+
+<canvas id="fireworks"></canvas>
+
+<div class="container">
+    <h1>Priyanka 🥺❤️</h1>
+
+    <div class="slide" id="slideText"></div>
+
+    <div class="buttons">
+        <button id="yesBtn">Yes, I Forgive You ❤️</button>
+        <button id="noBtn">No 😤</button>
+    </div>
+</div>
+
+<script>
+const slides = [
+"Priyanka, I know I hurt you… and I am truly sorry.",
+"Being far from you already hurts my heart every day.",
+"I never want to be the reason behind your tears.",
+"You are my peace, my happiness, my forever.",
+"I promise to grow, to understand, and to love you better.",
+"Please give me one more chance, my love. 🥺❤️"
+];
+
+let index = 0;
+const slideText = document.getElementById("slideText");
+
+function showSlides(){
+    slideText.innerHTML = slides[index];
+    index = (index + 1) % slides.length;
+}
+setInterval(showSlides, 3000);
+showSlides();
+
+// Runaway NO button
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", function(){
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+// YES fireworks explosion
+const yesBtn = document.getElementById("yesBtn");
+yesBtn.addEventListener("click", function(){
+    createBigFireworks();
+    setTimeout(()=>{
+        alert("Priyanka ❤️ You just made me the happiest person alive! I love you endlessly 💖✨");
+    },500);
+});
+
+// Floating hearts
+function createHeart(){
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML="💖";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(Math.random()*20+15)+"px";
+    heart.style.animationDuration=(Math.random()*3+3)+"s";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),6000);
+}
+setInterval(createHeart,300);
+
+// Fireworks system
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+
+function createBigFireworks(){
+    for(let i=0;i<6;i++){
+        let x=Math.random()*canvas.width;
+        let y=Math.random()*canvas.height/2;
+        for(let j=0;j<120;j++){
+            particles.push({
+                x:x,
+                y:y,
+                angle:Math.random()*2*Math.PI,
+                speed:Math.random()*7+3,
+                radius:2
+            });
+        }
+    }
+}
+
+function update(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach((p,i)=>{
+        p.x+=Math.cos(p.angle)*p.speed;
+        p.y+=Math.sin(p.angle)*p.speed;
+        p.speed*=0.94;
+
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+        ctx.fillStyle="white";
+        ctx.fill();
+
+        if(p.speed<0.5) particles.splice(i,1);
+    });
+    requestAnimationFrame(update);
+}
+update();
+</script>
+
+</body>
+</html>
